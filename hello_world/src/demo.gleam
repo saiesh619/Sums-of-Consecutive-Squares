@@ -1,12 +1,19 @@
-import gleam/int
 import gleam/io
 import gleam/list
+import gleam/int
 import lukas_core
 
 pub fn main() {
-  // Example 1: should print just "3"
+  let n = 10_000_000   // big enough to show scaling
+  let k = 24
+  let workers = 16     // try 8, 12, 16; keep best
+  let chunk = 75_000   // try 50k–100k
 
-  // Example 2: should print just "1"
-  let r2 = lukas_core.lukas(1_000_000, 24, 4, 1)
-  list.each(r2, fn(a) { io.println(int.to_string(a)) })
+  io.println("n=" <> int.to_string(n) <>
+             " k=" <> int.to_string(k) <>
+             " workers=" <> int.to_string(workers) <>
+             " chunk=" <> int.to_string(chunk))
+
+  let results = lukas_core.lukas(n, k, workers, chunk)
+  list.each(results, fn(a) { io.println(int.to_string(a)) })
 }
